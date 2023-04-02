@@ -1,29 +1,28 @@
 import PATH from "@/constants/path";
 import { Typography } from "@mui/material";
 import Link from "next/link";
-export default function Aside() {
+export default function Header() {
   return (
-    <aside className="fixed w-60 h-full left-0 top-0 p-5 shadow-md">
-      <div className="logo mb-10">
+    <header className="fixed flex w-full h-20 left-0 top-0 px-10 py-4 shadow-md">
+      <div className="logo mb-20">
         <Link href="/">
-          <Typography variant="h3" className="font-normal text-gray-600">
-            GAME <br />
-            FINDER
+          <Typography variant="h4" className="font-medium text-gray-600">
+            GAME FINDER
           </Typography>
         </Link>
       </div>
-      <nav>
-        <ul>
+      <nav className="ml-auto -mr-4">
+        <ul className="flex">
           {NAV.map((nav) => (
-            <li key={nav.title} className="mb-4">
-              <Link href={nav.path}>
+            <li key={nav.title} className="mb-8">
+              <Link href={nav.path} className="px-4 py-2 block">
                 <Typography variant="h5">{nav.title}</Typography>
               </Link>
             </li>
           ))}
         </ul>
       </nav>
-    </aside>
+    </header>
   );
 }
 
@@ -37,7 +36,7 @@ const NAV = [
     path: PATH.POPULAR,
   },
   {
-    title: "캘린더",
+    title: "출시 예정 캘린더",
     path: PATH.CALENDAR,
   },
 ];

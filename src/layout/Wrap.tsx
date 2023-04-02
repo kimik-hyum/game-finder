@@ -1,16 +1,17 @@
 import React, { PropsWithChildren } from "react";
-import Aside from "./Aside";
+import Header from "./Header";
 import Container from "./Container";
+import clsx from "clsx";
 
 interface WrapProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const Wrap: React.ForwardRefRenderFunction<
   HTMLDivElement,
   PropsWithChildren<WrapProps>
-> = ({ children, ...props }, ref) => {
+> = ({ children, className, ...props }, ref) => {
   return (
-    <div className="pl-60" ref={ref} {...props}>
-      <Aside />
+    <div ref={ref} className={`${clsx(className)} pt-20`} {...props}>
+      <Header />
       <Container>{children}</Container>
     </div>
   );

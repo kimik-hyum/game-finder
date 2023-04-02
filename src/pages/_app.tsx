@@ -7,6 +7,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import type { AppProps } from "next/app";
 import { Roboto } from "next/font/google";
+import { RecoilRoot } from "recoil";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -17,8 +18,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        cacheTime: 1000 * 60 * 60 * 24, // 24 hours
-        staleTime: 1000 * 60 * 60 * 24, // 24 hours
+        cacheTime: 1000 * 60 * 60 * 24,
+        staleTime: 1000 * 60 * 60 * 24,
       },
     },
   });
@@ -32,15 +33,17 @@ export default function App({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister }}
-    >
-      <ThemeProvider theme={theme}>
-        <Wrap className={roboto.className}>
-          <Component {...pageProps} />
-        </Wrap>
-      </ThemeProvider>
-    </PersistQueryClientProvider>
+    <RecoilRoot>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        <ThemeProvider theme={theme}>
+          <Wrap className={`${roboto.className}`}>
+            <Component {...pageProps} />
+          </Wrap>
+        </ThemeProvider>
+      </PersistQueryClientProvider>
+    </RecoilRoot>
   );
 }
