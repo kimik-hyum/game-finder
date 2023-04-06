@@ -4,6 +4,17 @@ const nextConfig = {
   env: {
     API: process.env.API,
   },
+  images: {
+    minimumCacheTTL: 60 * 60 * 24 * 7,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.akamai.steamstatic.com",
+        port: "",
+        pathname: "/**/**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
