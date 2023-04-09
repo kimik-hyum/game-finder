@@ -7,24 +7,34 @@ import { useState } from "react";
 import clsx from "clsx";
 import { css } from "@emotion/react";
 import { Typography } from "@mui/material";
-import { useAppDetail } from "@/query/list";
+import { useAppDetail, useAppReview } from "@/query/list";
+import { useRecoilState } from "recoil";
+import { fixedContentState } from "@/store/fixed";
 
 interface Props {
   app_id: number;
   name: string;
+  index: number;
 }
 
-export default function AppCard({ app_id, name }: Props) {
+export default function AppCard({ app_id, name, index }: Props) {
   const router = useRouter();
   const isDesktop = useMediaQuery(mediaMinDesktop);
+  const [fixed, setFixed] = useRecoilState(fixedContentState);
   const [active, setActive] = useState(false);
   const { data } = useAppDetail({
     id: String(app_id),
     enable: active,
   });
+  const { data: review } = useAppReview({
+    id: String(app_id),
+    enable: active,
+  });
+  const appData = data?.data[app_id]?.data;
+  const appReview = review?.data;
 
   const handleClick = () => {
-    if (isDesktop) {
+    if (isDesktop || active) {
       router.push(`/app/${app_id}`);
     }
     if (!isDesktop) {
@@ -41,17 +51,36 @@ export default function AppCard({ app_id, name }: Props) {
     if (!isDesktop) return false;
     setActive(false);
   };
-  console.log(data);
-
   return (
     <div
       onClick={handleClick}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      css={S}
+      css={[
+        S,
+        `
+          z-index: 0;
+          &:hover {
+            z-index: ${9999 - index};
+          }
+      `,
+      ]}
       data-active={clsx(active && "active")}
     >
       <div className="thumb">
+        {appData?.movies?.length > 0 && (
+          <div className="absolute top-0 left-0 w-full h-full z-50 overflow-hidden">
+            <video
+              src={appData.movies[0].webm[480]}
+              autoPlay
+              loop
+              muted
+              playsInline
+              width={460}
+              height={215}
+            />
+          </div>
+        )}
         <Image
           key={app_id}
           src={`https://cdn.akamai.steamstatic.com/steam/apps/${app_id}/header.jpg`}
@@ -59,6 +88,7 @@ export default function AppCard({ app_id, name }: Props) {
           width={460}
           height={215}
         />
+
         <div className="info">
           <Typography variant="h6" component={"h2"} className="name">
             {name}
@@ -69,6 +99,15 @@ export default function AppCard({ app_id, name }: Props) {
         <div className="inner">
           <Typography variant="h6" component={"h2"} className="name">
             {name}
+          </Typography>
+          <Typography variant="body1" component={"p"}>
+            출시일 : {appData?.release_date.date}
+          </Typography>
+          <Typography variant="body1" component={"p"}>
+            평가 : {appReview?.query_summary.review_score_desc}
+          </Typography>
+          <Typography variant="body1" component={"p"}>
+            가격 : {appData?.price_overview?.final_formatted}
           </Typography>
         </div>
       </div>
@@ -82,10 +121,7 @@ const S = css`
   width: 100%;
   cursor: pointer;
   transition: z-index 1s cubic-bezier(0.6, 0, 0.6, 0);
-  z-index: 0;
-  &:hover {
-    z-index: 100;
-  }
+
   &[data-active="active"] {
     .thumb {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

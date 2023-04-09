@@ -1,3 +1,4 @@
+import FixedContent from "@/components/FixedContent";
 import { isClient } from "@/constants/common";
 import Wrap from "@/layout/Wrap";
 import "@/styles/globals.css";
@@ -18,8 +19,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        cacheTime: 1000 * 60 * 60 * 24,
-        staleTime: 1000 * 60 * 60 * 24,
+        cacheTime: 0,
+        staleTime: 0,
       },
     },
   });
@@ -39,6 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
         persistOptions={{ persister }}
       >
         <ThemeProvider theme={theme}>
+          <FixedContent />
           <Wrap className={`${roboto.className}`}>
             <Component {...pageProps} />
           </Wrap>

@@ -13,9 +13,7 @@ export const useGetGameList = () => {
 };
 
 export const getDetail = async (id: string) => {
-  const { data } = await axios.get(
-    `http://localhost:3000/api/detail?appids=${id}`
-  );
+  const { data } = await axios.get(`/api/detail?appids=${id}`);
   return data;
 };
 
@@ -27,9 +25,32 @@ export const useAppDetail = ({
   enable: boolean;
 }) => {
   return useQuery<any, AxiosError>(
-    ["app/detail"],
+    ["app/detail", id, enable],
     async () => {
       return getDetail(id);
+    },
+    {
+      enabled: enable,
+    }
+  );
+};
+
+export const getReview = async (id: string) => {
+  const { data } = await axios.get(`/api/review?appids=${id}`);
+  return data;
+};
+
+export const useAppReview = ({
+  id,
+  enable,
+}: {
+  id: string;
+  enable: boolean;
+}) => {
+  return useQuery<any, AxiosError>(
+    ["app/review", id, enable],
+    async () => {
+      return getReview(id);
     },
     {
       enabled: enable,
