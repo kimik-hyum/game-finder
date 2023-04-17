@@ -1,8 +1,12 @@
 import { atom } from "recoil";
 
 interface FixedContentProps {
-  children: React.ReactNode;
-  form: {
+  children: {
+    src: string;
+    currentTime?: number;
+    type: "video" | "image";
+  };
+  from: {
     x: number;
     y: number;
     width: number;

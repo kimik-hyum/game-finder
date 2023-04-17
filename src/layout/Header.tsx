@@ -3,18 +3,21 @@ import { Typography } from "@mui/material";
 import Link from "next/link";
 export default function Header() {
   return (
-    <header className="fixed flex w-full h-20 left-0 top-0 px-10 py-4 shadow-md">
-      <div className="logo mb-20">
+    <header className="sticky flex flex-col -top-14  md:flex-row  w-full md:h-20 left-0 md:top-0 md:px-10 pt-4 shadow-md">
+      <div className="logo mb-2 md:mb-20">
         <Link href="/">
-          <Typography variant="h4" className="font-medium text-gray-600">
+          <Typography
+            variant="h4"
+            className="font-medium text-gray-600 text-center"
+          >
             GAME FINDER
           </Typography>
         </Link>
       </div>
-      <nav className="ml-auto -mr-4">
+      <nav className="flex justify-center items-center max-md:border-t max-md:py-2 md:ml-auto md:-mr-4 ">
         <ul className="flex">
           {NAV.map((nav) => (
-            <li key={nav.title} className="mb-8">
+            <li key={nav.title} className="md:mb-8">
               <Link href={nav.path} className="px-4 py-2 block">
                 <Typography variant="h5">{nav.title}</Typography>
               </Link>
@@ -36,7 +39,7 @@ const NAV = [
     path: PATH.POPULAR,
   },
   {
-    title: "출시 예정 캘린더",
+    title: "출시 예정",
     path: PATH.CALENDAR,
   },
 ];

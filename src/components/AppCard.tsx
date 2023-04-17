@@ -3,13 +3,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { mediaMinDesktop } from "@/constants/size";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import clsx from "clsx";
 import { css } from "@emotion/react";
 import { Typography } from "@mui/material";
 import { useAppDetail, useAppReview } from "@/query/list";
 import { useRecoilState } from "recoil";
 import { fixedContentState } from "@/store/fixed";
+import ReactDOM from "react-dom";
 
 interface Props {
   app_id: number;
@@ -17,9 +18,15 @@ interface Props {
   index: number;
 }
 
+const FixedVideo = ({ container, content }: any) => {
+  return ReactDOM.createPortal(<div>123</div>, container);
+};
+
 export default function AppCard({ app_id, name, index }: Props) {
   const router = useRouter();
   const isDesktop = useMediaQuery(mediaMinDesktop);
+  const videoRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [fixed, setFixed] = useRecoilState(fixedContentState);
   const [active, setActive] = useState(false);
   const { data } = useAppDetail({
@@ -33,9 +40,37 @@ export default function AppCard({ app_id, name, index }: Props) {
   const appData = data?.data[app_id]?.data;
   const appReview = review?.data;
 
-  const handleClick = () => {
+  const handleFixedContent = () => {};
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isDesktop || active) {
-      router.push(`/app/${app_id}`);
+      //router.push(`/app/${app_id}`, undefined, { shallow: true });
+      const videoRect = e.currentTarget?.getBoundingClientRect();
+      setFixed({
+        children:
+          active && !!appData?.movies?.length
+            ? {
+                src: appData.movies[0].webm[480],
+                currentTime: 0,
+                type: "video",
+              }
+            : {
+                src: `https://cdn.akamai.steamstatic.com/steam/apps/${app_id}/header.jpg`,
+                type: "image",
+              },
+        from: {
+          x: videoRect?.left || 0,
+          y: videoRect?.top || 0,
+          width: videoRef.current?.clientWidth || 0,
+          height: videoRef.current?.clientHeight || 0,
+        },
+        to: {
+          x: 0,
+          y: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        },
+      });
     }
     if (!isDesktop) {
       setActive(true);
@@ -56,12 +91,18 @@ export default function AppCard({ app_id, name, index }: Props) {
       onClick={handleClick}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
+      ref={cardRef}
       css={[
         S,
         `
           z-index: 0;
           &:hover {
             z-index: ${9999 - index};
+            .info-card {
+              transform: translateY(${
+                (cardRef.current?.clientHeight || 0) - 4
+              }px);
+            }
           }
       `,
       ]}
@@ -89,11 +130,11 @@ export default function AppCard({ app_id, name, index }: Props) {
           height={215}
         />
 
-        <div className="info">
+        {/* <div className="info">
           <Typography variant="h6" component={"h2"} className="name">
             {name}
           </Typography>
-        </div>
+        </div> */}
       </div>
       <div className="info-card">
         <div className="inner">
@@ -118,7 +159,7 @@ export default function AppCard({ app_id, name, index }: Props) {
 const S = css`
   position: relative;
   max-width: 460px;
-  width: 100%;
+  width: calc(50% - 8px);
   cursor: pointer;
   transition: z-index 1s cubic-bezier(0.6, 0, 0.6, 0);
 
@@ -130,7 +171,7 @@ const S = css`
       }
     }
     .info-card {
-      transform: translateY(210px);
+      //transform: translateY(210px);
       max-height: 500px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }

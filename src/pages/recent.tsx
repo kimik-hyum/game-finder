@@ -23,5 +23,5 @@ export default function Recent() {
 const S = css`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 20px 8px;
 `;

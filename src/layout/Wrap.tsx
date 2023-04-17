@@ -10,7 +10,7 @@ const Wrap: React.ForwardRefRenderFunction<
   PropsWithChildren<WrapProps>
 > = ({ children, className, ...props }, ref) => {
   return (
-    <div ref={ref} className={`${clsx(className)} pt-20`} {...props}>
+    <div ref={ref} className={`${clsx(className)}`} {...props}>
       <Header />
       <Container>{children}</Container>
     </div>
