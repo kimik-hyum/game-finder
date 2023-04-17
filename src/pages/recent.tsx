@@ -9,7 +9,6 @@ export default function Recent() {
   const { data, isLoading } = useGetGameList();
   return (
     <div>
-      <h1>Recent</h1>
       <div css={S}>
         {data?.list.map((item: any, i: number) => {
           const { app_id, name } = item;

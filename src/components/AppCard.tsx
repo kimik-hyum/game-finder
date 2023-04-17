@@ -26,7 +26,7 @@ export default function AppCard({ app_id, name, index }: Props) {
   const router = useRouter();
   const isDesktop = useMediaQuery(mediaMinDesktop);
   const videoRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const [fixed, setFixed] = useRecoilState(fixedContentState);
   const [active, setActive] = useState(false);
   const { data } = useAppDetail({
@@ -42,7 +42,7 @@ export default function AppCard({ app_id, name, index }: Props) {
 
   const handleFixedContent = () => {};
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (isDesktop || active) {
       //router.push(`/app/${app_id}`, undefined, { shallow: true });
       const videoRect = e.currentTarget?.getBoundingClientRect();
@@ -87,16 +87,21 @@ export default function AppCard({ app_id, name, index }: Props) {
     setActive(false);
   };
   return (
-    <div
+    <a
+      href="#"
       onClick={handleClick}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       ref={cardRef}
+      onBlur={() => {
+        console.log("blur");
+        setActive(false);
+      }}
       css={[
         S,
         `
           z-index: 0;
-          &:hover {
+          &[data-active="active"] {
             z-index: ${9999 - index};
             .info-card {
               transform: translateY(${
@@ -152,7 +157,7 @@ export default function AppCard({ app_id, name, index }: Props) {
           </Typography>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
