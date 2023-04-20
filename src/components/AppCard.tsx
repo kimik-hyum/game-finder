@@ -94,7 +94,6 @@ export default function AppCard({ app_id, name, index }: Props) {
       onMouseLeave={handleLeave}
       ref={cardRef}
       onBlur={() => {
-        console.log("blur");
         setActive(false);
       }}
       css={[
@@ -134,7 +133,11 @@ export default function AppCard({ app_id, name, index }: Props) {
           width={460}
           height={215}
         />
-
+        <div className="date-text">
+          <Typography variant="body2" component={"p"} className="font-bold">
+            2022.12.16
+          </Typography>
+        </div>
         {/* <div className="info">
           <Typography variant="h6" component={"h2"} className="name">
             {name}
@@ -142,8 +145,12 @@ export default function AppCard({ app_id, name, index }: Props) {
         </div> */}
       </div>
       <div className="info-card">
-        <div className="inner">
-          <Typography variant="h6" component={"h2"} className="name">
+        <div className="inner flex">
+          {/* <Typography
+            variant="body1"
+            component={"h2"}
+            className="name font-bold"
+          >
             {name}
           </Typography>
           <Typography variant="body1" component={"p"}>
@@ -151,9 +158,12 @@ export default function AppCard({ app_id, name, index }: Props) {
           </Typography>
           <Typography variant="body1" component={"p"}>
             평가 : {appReview?.query_summary.review_score_desc}
+          </Typography> */}
+          <Typography variant="body1" component={"span"}>
+            16,000원
           </Typography>
-          <Typography variant="body1" component={"p"}>
-            가격 : {appData?.price_overview?.final_formatted}
+          <Typography variant="body1" component={"span"} className="ml-auto">
+            👎
           </Typography>
         </div>
       </div>
@@ -163,6 +173,29 @@ export default function AppCard({ app_id, name, index }: Props) {
 
 const S = css`
   position: relative;
+  width: calc(50% - 8px);
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+  .date-text {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .info-card {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 0px 0px 4px 4px;
+    border: 1px solid #ddd;
+    padding: 4px;
+  }
+
+  /* position: relative;
   max-width: 460px;
   width: calc(50% - 8px);
   cursor: pointer;
@@ -219,5 +252,5 @@ const S = css`
     .inner {
       width: 100%;
     }
-  }
+  } */
 `;

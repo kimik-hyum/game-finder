@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import Link from "next/link";
 export default function Header() {
   return (
-    <header className="sticky flex flex-col -top-14  md:flex-row  w-full md:h-20 left-0 md:top-0 md:px-10 pt-4 shadow-md">
+    <header className="sticky z-10 flex flex-col -top-16  md:flex-row  w-full md:h-20 left-0 md:top-0 md:px-10 pt-4 shadow-md bg-white">
       <div className="logo mb-2 md:mb-20">
         <Link href="/">
           <Typography
