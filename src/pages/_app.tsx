@@ -19,8 +19,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        cacheTime: 0,
-        staleTime: 0,
+        cacheTime: 10000,
+        staleTime: 10000,
       },
     },
   });

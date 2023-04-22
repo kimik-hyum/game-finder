@@ -2,8 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { mediaMinDesktop } from "@/constants/size";
-import { useRef, useState } from "react";
+import { mediaMinDesktop, mediaTablet } from "@/constants/size";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { css } from "@emotion/react";
 import { Typography } from "@mui/material";
@@ -16,13 +16,23 @@ interface Props {
   app_id: number;
   name: string;
   index: number;
+  release_date: string;
+  isVisible: boolean;
+  onVisible: (node: HTMLAnchorElement | null, id: string) => void;
 }
 
 const FixedVideo = ({ container, content }: any) => {
   return ReactDOM.createPortal(<div>123</div>, container);
 };
 
-export default function AppCard({ app_id, name, index }: Props) {
+export default function AppCard({
+  app_id,
+  name,
+  index,
+  release_date,
+  isVisible,
+  onVisible,
+}: Props) {
   const router = useRouter();
   const isDesktop = useMediaQuery(mediaMinDesktop);
   const videoRef = useRef<HTMLDivElement>(null);
@@ -31,14 +41,19 @@ export default function AppCard({ app_id, name, index }: Props) {
   const [active, setActive] = useState(false);
   const { data } = useAppDetail({
     id: String(app_id),
-    enable: active,
+    enable: isVisible,
   });
   const { data: review } = useAppReview({
     id: String(app_id),
-    enable: active,
+    enable: isVisible,
   });
-  const appData = data?.data[app_id]?.data;
+  console.log(app_id, data);
+  const appData = data?.data && data?.data[app_id]?.data;
   const appReview = review?.data;
+
+  useEffect(() => {
+    onVisible(cardRef.current, app_id.toString());
+  }, [onVisible, app_id]);
 
   const handleFixedContent = () => {};
 
@@ -46,31 +61,31 @@ export default function AppCard({ app_id, name, index }: Props) {
     if (isDesktop || active) {
       //router.push(`/app/${app_id}`, undefined, { shallow: true });
       const videoRect = e.currentTarget?.getBoundingClientRect();
-      setFixed({
-        children:
-          active && !!appData?.movies?.length
-            ? {
-                src: appData.movies[0].webm[480],
-                currentTime: 0,
-                type: "video",
-              }
-            : {
-                src: `https://cdn.akamai.steamstatic.com/steam/apps/${app_id}/header.jpg`,
-                type: "image",
-              },
-        from: {
-          x: videoRect?.left || 0,
-          y: videoRect?.top || 0,
-          width: videoRef.current?.clientWidth || 0,
-          height: videoRef.current?.clientHeight || 0,
-        },
-        to: {
-          x: 0,
-          y: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        },
-      });
+      // setFixed({
+      //   children:
+      //     active && !!appData?.movies?.length
+      //       ? {
+      //           src: appData.movies[0].webm[480],
+      //           currentTime: 0,
+      //           type: "video",
+      //         }
+      //       : {
+      //           src: `https://cdn.akamai.steamstatic.com/steam/apps/${app_id}/header.jpg`,
+      //           type: "image",
+      //         },
+      //   from: {
+      //     x: videoRect?.left || 0,
+      //     y: videoRect?.top || 0,
+      //     width: videoRef.current?.clientWidth || 0,
+      //     height: videoRef.current?.clientHeight || 0,
+      //   },
+      //   to: {
+      //     x: 0,
+      //     y: 0,
+      //     width: window.innerWidth,
+      //     height: window.innerHeight,
+      //   },
+      // });
     }
     if (!isDesktop) {
       setActive(true);
@@ -96,24 +111,11 @@ export default function AppCard({ app_id, name, index }: Props) {
       onBlur={() => {
         setActive(false);
       }}
-      css={[
-        S,
-        `
-          z-index: 0;
-          &[data-active="active"] {
-            z-index: ${9999 - index};
-            .info-card {
-              transform: translateY(${
-                (cardRef.current?.clientHeight || 0) - 4
-              }px);
-            }
-          }
-      `,
-      ]}
+      css={S}
       data-active={clsx(active && "active")}
     >
       <div className="thumb">
-        {appData?.movies?.length > 0 && (
+        {/* {appData?.movies?.length > 0 && (
           <div className="absolute top-0 left-0 w-full h-full z-50 overflow-hidden">
             <video
               src={appData.movies[0].webm[480]}
@@ -125,7 +127,7 @@ export default function AppCard({ app_id, name, index }: Props) {
               height={215}
             />
           </div>
-        )}
+        )} */}
         <Image
           key={app_id}
           src={`https://cdn.akamai.steamstatic.com/steam/apps/${app_id}/header.jpg`}
@@ -135,7 +137,7 @@ export default function AppCard({ app_id, name, index }: Props) {
         />
         <div className="date-text">
           <Typography variant="body2" component={"p"} className="font-bold">
-            2022.12.16
+            {release_date && release_date}
           </Typography>
         </div>
         {/* <div className="info">
@@ -160,7 +162,7 @@ export default function AppCard({ app_id, name, index }: Props) {
             평가 : {appReview?.query_summary.review_score_desc}
           </Typography> */}
           <Typography variant="body1" component={"span"}>
-            16,000원
+            {appData?.price_overview?.final}원
           </Typography>
           <Typography variant="body1" component={"span"} className="ml-auto">
             👎
@@ -176,6 +178,10 @@ const S = css`
   width: calc(50% - 8px);
   border-radius: 4px 4px 0 0;
   overflow: hidden;
+  @media ${mediaTablet} {
+    width: auto;
+    max-width: 460px;
+  }
   .date-text {
     position: absolute;
     top: 4px;

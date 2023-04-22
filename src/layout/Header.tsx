@@ -18,8 +18,8 @@ export default function Header() {
         <ul className="flex">
           {NAV.map((nav) => (
             <li key={nav.title} className="md:mb-8">
-              <Link href={nav.path} className="px-4 py-2 block">
-                <Typography variant="h5">{nav.title}</Typography>
+              <Link href={nav.path} className="px-4 block">
+                <Typography variant="h6">{nav.title}</Typography>
               </Link>
             </li>
           ))}

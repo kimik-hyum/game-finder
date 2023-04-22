@@ -25,7 +25,7 @@ export const useAppDetail = ({
   enable: boolean;
 }) => {
   return useQuery<any, AxiosError>(
-    ["app/detail", id, enable],
+    ["app/detail", id],
     async () => {
       return getDetail(id);
     },
@@ -48,7 +48,7 @@ export const useAppReview = ({
   enable: boolean;
 }) => {
   return useQuery<any, AxiosError>(
-    ["app/review", id, enable],
+    ["app/review", id],
     async () => {
       return getReview(id);
     },
