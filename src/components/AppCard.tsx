@@ -11,6 +11,7 @@ import { useAppDetail, useAppReview } from "@/query/list";
 import { useRecoilState } from "recoil";
 import { fixedContentState } from "@/store/fixed";
 import ReactDOM from "react-dom";
+import { formatMoney, formatReviewIcon, numberWithCommas } from "@/lib/util";
 
 interface Props {
   app_id: number;
@@ -47,8 +48,9 @@ export default function AppCard({
     id: String(app_id),
     enable: isVisible,
   });
-  console.log(app_id, data);
   const appData = data?.data && data?.data[app_id]?.data;
+  const commingSoon = appData?.release_date.coming_soon;
+  const isFree = appData?.is_free;
   const appReview = review?.data;
 
   useEffect(() => {
@@ -101,6 +103,7 @@ export default function AppCard({
     if (!isDesktop) return false;
     setActive(false);
   };
+
   return (
     <a
       href="#"
@@ -137,7 +140,7 @@ export default function AppCard({
         />
         <div className="date-text">
           <Typography variant="body2" component={"p"} className="font-bold">
-            {release_date && release_date}
+            {commingSoon ? "출시예정" : release_date}
           </Typography>
         </div>
         {/* <div className="info">
@@ -147,7 +150,7 @@ export default function AppCard({
         </div> */}
       </div>
       <div className="info-card">
-        <div className="inner flex">
+        <div className="inner flex justify-between">
           {/* <Typography
             variant="body1"
             component={"h2"}
@@ -162,10 +165,14 @@ export default function AppCard({
             평가 : {appReview?.query_summary.review_score_desc}
           </Typography> */}
           <Typography variant="body1" component={"span"}>
-            {appData?.price_overview?.final}원
+            {isFree
+              ? "무료"
+              : appData?.price_overview?.final > 0
+              ? `${numberWithCommas(appData?.price_overview?.final / 100)}원`
+              : "로딩"}
           </Typography>
           <Typography variant="body1" component={"span"} className="ml-auto">
-            👎
+            {formatReviewIcon(appReview?.query_summary.review_score)}
           </Typography>
         </div>
       </div>
@@ -199,6 +206,9 @@ const S = css`
     border-radius: 0px 0px 4px 4px;
     border: 1px solid #ddd;
     padding: 4px;
+    @media ${mediaTablet} {
+      padding: 8px 12px;
+    }
   }
 
   /* position: relative;
