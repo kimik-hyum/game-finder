@@ -12,6 +12,7 @@ import { useRecoilState } from "recoil";
 import { fixedContentState } from "@/store/fixed";
 import ReactDOM from "react-dom";
 import { formatMoney, formatReviewIcon, numberWithCommas } from "@/lib/util";
+import Tag from "./Tag";
 
 interface Props {
   app_id: number;
@@ -20,11 +21,12 @@ interface Props {
   release_date: string;
   isVisible: boolean;
   onVisible: (node: HTMLAnchorElement | null, id: string) => void;
+  supported_languages: boolean;
+  tag: string;
 }
-
-const FixedVideo = ({ container, content }: any) => {
-  return ReactDOM.createPortal(<div>123</div>, container);
-};
+// const FixedVideo = ({ container, content }: any) => {
+//   return ReactDOM.createPortal(<div>123</div>, container);
+// };
 
 export default function AppCard({
   app_id,
@@ -33,6 +35,8 @@ export default function AppCard({
   release_date,
   isVisible,
   onVisible,
+  supported_languages,
+  tag,
 }: Props) {
   const router = useRouter();
   const isDesktop = useMediaQuery(mediaMinDesktop);
@@ -175,7 +179,12 @@ export default function AppCard({
             {formatReviewIcon(appReview?.query_summary.review_score)}
           </Typography>
         </div>
-        <div className="mt-2">한국어, 어드벤쳐</div>
+        <div className="mt-1 overflow-hidden h-6">
+          {supported_languages && <Tag>한국어</Tag>}
+          {tag.split(",").map((item, index) => (
+            <Tag key={index}>{item}</Tag>
+          ))}
+        </div>
       </div>
     </a>
   );
@@ -206,7 +215,7 @@ const S = css`
     background-color: #fff;
     border-radius: 0px 0px 4px 4px;
     border: 1px solid #ddd;
-    padding: 4px;
+    padding: 6px 4px;
     @media ${mediaTablet} {
       padding: 8px 12px;
     }

@@ -37,18 +37,18 @@ export default function Recent() {
       node.id = id;
     }
   };
-  console.log(data?.list);
+  console.log("캐주얼,2D,귀여운,싱글 플레이어,분위기 있는,인디".split(", "));
 
   return (
     <div>
       <div css={S}>
         {data?.list?.map((item: any, i: number) => {
-          const { app_id, name, release_date } = item;
+          const { app_id, name, release_date, tag, supported_languages } = item;
           return (
             <AppCard
               key={app_id}
               index={i}
-              {...{ app_id, name, release_date }}
+              {...{ app_id, name, release_date, tag, supported_languages }}
               isVisible={visibleCards.has(app_id.toString())}
               onVisible={onVisible}
             />
