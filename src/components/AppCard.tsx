@@ -175,6 +175,7 @@ export default function AppCard({
             {formatReviewIcon(appReview?.query_summary.review_score)}
           </Typography>
         </div>
+        <div className="mt-2">한국어, 어드벤쳐</div>
       </div>
     </a>
   );

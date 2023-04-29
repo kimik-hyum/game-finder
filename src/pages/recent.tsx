@@ -7,7 +7,7 @@ import { css } from "@emotion/react";
 import { useRef, useState } from "react";
 
 export default function Recent() {
-  const { data, isLoading } = useGetGameList();
+  const { data, isLoading } = useGetGameList("recent");
   const [visibleCards, setVisibleCards] = useState<Set<string>>(new Set());
 
   const observer = useRef<IntersectionObserver | null>(
@@ -37,11 +37,12 @@ export default function Recent() {
       node.id = id;
     }
   };
+  console.log(data?.list);
 
   return (
     <div>
       <div css={S}>
-        {data?.list.map((item: any, i: number) => {
+        {data?.list?.map((item: any, i: number) => {
           const { app_id, name, release_date } = item;
           return (
             <AppCard

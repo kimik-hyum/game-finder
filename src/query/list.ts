@@ -1,16 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import qs from "qs";
+import { format } from "date-fns";
 
-export const getList = async () => {
-  const { data } = await axios.get("http://localhost:3000/api/list");
+export const getList = async (query: string) => {
+  const { data } = await axios.get(`http://localhost:3000/api/list?${query}`);
   return data;
 };
 
-export const useGetGameList = () => {
+export const useGetGameList = (type: "recent" | "popular") => {
+  const query = () => {
+    switch (type) {
+      case "recent":
+        return qs.stringify({
+          release: true,
+          _sort: "release_date:DESC,createdAt:DESC",
+          name_ncontains: "playtest",
+          _where: [
+            {
+              release_date_lte: format(new Date(), "yyyy-MM-dd"),
+            },
+          ],
+        });
+    }
+  };
   return useQuery<any, AxiosError>(["app/list"], async () => {
-    return getList();
+    return getList(query() || "");
   });
 };
+
+qs.parse;
 
 export const getDetail = async (id: string) => {
   const { data } = await axios.get(`/api/detail?appids=${id}`);
