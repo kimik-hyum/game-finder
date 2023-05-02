@@ -1,10 +1,11 @@
 import AppCard from "@/components/AppCard";
-import { getList, useGetGameList } from "@/query/list";
+import { getList, useGetGameList } from "@/query/app";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import style from "@/styles/list.module.scss";
 import { css } from "@emotion/react";
-import { useRef, useState } from "react";
+import { ReactElement, useRef, useState } from "react";
+import Wrap from "@/layout/Wrap";
 
 export default function Recent() {
   const { data, isLoading } = useGetGameList("recent");
@@ -58,6 +59,10 @@ export default function Recent() {
     </div>
   );
 }
+
+Recent.getLayout = function getLayout(page: ReactElement) {
+  return <Wrap>{page}</Wrap>;
+};
 
 const S = css`
   display: flex;

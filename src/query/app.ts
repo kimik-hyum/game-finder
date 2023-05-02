@@ -8,7 +8,7 @@ export const getList = async (query: string) => {
   return data;
 };
 
-export const useGetGameList = (type: "recent" | "popular") => {
+export const useGetGameList = (type?: "recent" | "popular") => {
   const query = () => {
     switch (type) {
       case "recent":
@@ -29,10 +29,10 @@ export const useGetGameList = (type: "recent" | "popular") => {
   });
 };
 
-qs.parse;
-
 export const getDetail = async (id: string) => {
-  const { data } = await axios.get(`/api/detail?appids=${id}`);
+  const { data } = await axios.get(
+    `http://localhost:3000/api/detail?appids=${id}`
+  );
   return data;
 };
 
@@ -43,6 +43,7 @@ export const useAppDetail = ({
   id: string;
   enable: boolean;
 }) => {
+  console.log(id, enable);
   return useQuery<any, AxiosError>(
     ["app/detail", id],
     async () => {

@@ -7,9 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { css } from "@emotion/react";
 import { Typography } from "@mui/material";
-import { useAppDetail, useAppReview } from "@/query/list";
+import { useAppDetail, useAppReview } from "@/query/app";
 import { useRecoilState } from "recoil";
-import { fixedContentState } from "@/store/fixed";
+// import { fixedContentState } from "@/store/fixed";
 import ReactDOM from "react-dom";
 import { formatMoney, formatReviewIcon, numberWithCommas } from "@/lib/util";
 import Tag from "./Tag";
@@ -42,7 +42,7 @@ export default function AppCard({
   const isDesktop = useMediaQuery(mediaMinDesktop);
   const videoRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLAnchorElement>(null);
-  const [fixed, setFixed] = useRecoilState(fixedContentState);
+  // const [fixed, setFixed] = useRecoilState(fixedContentState);
   const [active, setActive] = useState(false);
   const { data } = useAppDetail({
     id: String(app_id),
@@ -94,6 +94,7 @@ export default function AppCard({
       // });
     }
     if (!isDesktop) {
+      router.push(`/app/${app_id}`);
       setActive(true);
     }
   };
@@ -181,9 +182,8 @@ export default function AppCard({
         </div>
         <div className="mt-1 overflow-hidden h-6">
           {supported_languages && <Tag>한국어</Tag>}
-          {tag.split(",").map((item, index) => (
-            <Tag key={index}>{item}</Tag>
-          ))}
+          {!!tag &&
+            tag.split(",").map((item, index) => <Tag key={index}>{item}</Tag>)}
         </div>
       </div>
     </a>

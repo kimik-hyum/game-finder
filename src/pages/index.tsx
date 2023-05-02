@@ -2,11 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { useGetGameList } from "@/query/list";
+import { useGetGameList } from "@/query/app";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { showFilterState } from "@/store/filter";
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+import Wrap from "@/layout/Wrap";
 
 const VideoPlayer = ({ src, onVideoClick }: any) => {
   const videoRef: any = useRef();
@@ -87,3 +88,7 @@ export default function Home() {
     </div>
   );
 }
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <Wrap>{page}</Wrap>;
+};
