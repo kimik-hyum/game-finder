@@ -38,8 +38,7 @@ export default function Recent() {
       node.id = id;
     }
   };
-  console.log("캐주얼,2D,귀여운,싱글 플레이어,분위기 있는,인디".split(", "));
-
+  console.log(data);
   return (
     <div>
       <div css={S}>

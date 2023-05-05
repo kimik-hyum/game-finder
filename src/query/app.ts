@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import qs from "qs";
 import { format } from "date-fns";
@@ -24,9 +24,16 @@ export const useGetGameList = (type?: "recent" | "popular") => {
         });
     }
   };
-  return useQuery<any, AxiosError>(["app/list"], async () => {
-    return getList(query() || "");
-  });
+  return useInfiniteQuery<any, AxiosError>(
+    ["app/list"],
+    async () => {
+      return getList(query() || "");
+    },
+    {
+      cacheTime: 1000 * 60 * 60 * 24,
+      staleTime: 1000 * 60 * 60 * 24,
+    }
+  );
 };
 
 export const getDetail = async (id: string) => {
@@ -43,7 +50,6 @@ export const useAppDetail = ({
   id: string;
   enable: boolean;
 }) => {
-  console.log(id, enable);
   return useQuery<any, AxiosError>(
     ["app/detail", id],
     async () => {

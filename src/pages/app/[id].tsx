@@ -9,8 +9,8 @@ export default function Detail() {
   const { id } = router.query;
   const { data } = useAppDetail({ id: id as string, enable: !!id });
   return (
-    <Wrap pageName={"상세"}>
-      <div>{data && data.data[id as string]?.data.name}</div>
+    <Wrap pageName={data && data.data[id as string]?.data.name}>
+      <div></div>
     </Wrap>
   );
 }

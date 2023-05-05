@@ -10,4 +10,11 @@ module.exports = {
   ],
   variants: {},
   plugins: [],
+  theme: {
+    extend: {
+      height: {
+        18: "4.5rem", // 1rem = 4단위, 따라서 4.5rem = 18단위
+      },
+    },
+  },
 };

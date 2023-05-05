@@ -1,23 +1,39 @@
 import PATH from "@/constants/path";
 import { Typography } from "@mui/material";
 import Link from "next/link";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useRouter } from "next/router";
 
 interface Props {
   pageName?: string;
 }
 export default function Header({ pageName }: Props) {
+  const router = useRouter();
   return (
-    <header className="sticky z-10 flex flex-col -top-16  md:flex-row  w-full md:h-20 left-0 md:top-0 md:px-10 pt-4 shadow-md bg-white">
-      <div className="logo mb-2 md:mb-20">
-        <Link href="/">
-          <Typography
-            variant="h4"
-            className="font-medium text-gray-600 text-center"
+    <header
+      className={`sticky z-10 flex -top-16  md:flex-row  w-full md:h-20 left-0 md:top-0 md:px-10 shadow-md bg-white flex-col`}
+    >
+      <div className="title-bar flex justify-center items-center py-4 h-18">
+        {!!pageName && (
+          <button
+            onClick={() => router.back()}
+            className="absolute left-6 top-1/2 -translate-y-1/2 "
           >
-            {pageName || `GAME FINDER`}
-          </Typography>
-        </Link>
+            <ArrowBackIosIcon className="text-3xl" />
+          </button>
+        )}
+        <div className="logo md:mb-20">
+          <Link href="/">
+            <Typography
+              variant={!pageName ? "h4" : "h5"}
+              className="font-medium text-gray-600 text-center"
+            >
+              {pageName || `GAME FINDER`}
+            </Typography>
+          </Link>
+        </div>
       </div>
+
       {!pageName && (
         <nav className="flex justify-center items-center max-md:border-t max-md:py-2 md:ml-auto md:-mr-4 ">
           <ul className="flex">

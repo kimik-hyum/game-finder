@@ -64,6 +64,7 @@ export default function AppCard({
   const handleFixedContent = () => {};
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     if (isDesktop || active) {
       //router.push(`/app/${app_id}`, undefined, { shallow: true });
       const videoRect = e.currentTarget?.getBoundingClientRect();
@@ -180,11 +181,19 @@ export default function AppCard({
             {formatReviewIcon(appReview?.query_summary.review_score)}
           </Typography>
         </div>
-        <div className="mt-1 overflow-hidden h-6">
-          {supported_languages && <Tag>한국어</Tag>}
-          {!!tag &&
-            tag.split(",").map((item, index) => <Tag key={index}>{item}</Tag>)}
-        </div>
+        {(!!supported_languages || !!tag) && (
+          <div className="mt-1 overflow-hidden h-6">
+            {supported_languages && (
+              <Tag color="text-white" bgColor="bg-black">
+                한국어
+              </Tag>
+            )}
+            {!!tag &&
+              tag
+                .split(",")
+                .map((item, index) => <Tag key={index}>{item}</Tag>)}
+          </div>
+        )}
       </div>
     </a>
   );
