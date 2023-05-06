@@ -8,6 +8,7 @@ export default function Detail() {
   const router = useRouter();
   const { id } = router.query;
   const { data } = useAppDetail({ id: id as string, enable: !!id });
+  console.log(data);
   return (
     <Wrap pageName={data && data.data[id as string]?.data.name}>
       <div></div>

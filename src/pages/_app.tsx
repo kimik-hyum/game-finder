@@ -25,16 +25,16 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        cacheTime: 9999999999,
-        staleTime: 9999999999,
-      },
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 0,
+      staleTime: 0,
     },
-  });
+  },
+});
 
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const persister = createSyncStoragePersister({
     storage: isClient ? window.localStorage : undefined,
   });

@@ -2,6 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import qs from "qs";
 import { format } from "date-fns";
+import { pageSize } from "@/constants/common";
 
 export const getList = async (query: string) => {
   const { data } = await axios.get(`http://localhost:3000/api/list?${query}`);
@@ -9,27 +10,41 @@ export const getList = async (query: string) => {
 };
 
 export const useGetGameList = (type?: "recent" | "popular") => {
-  const query = () => {
-    switch (type) {
-      case "recent":
-        return qs.stringify({
-          release: true,
-          _sort: "release_date:DESC,createdAt:DESC",
-          name_ncontains: "playtest",
-          _where: [
-            {
-              release_date_lte: format(new Date(), "yyyy-MM-dd"),
-            },
-          ],
-        });
-    }
-  };
   return useInfiniteQuery<any, AxiosError>(
     ["app/list"],
-    async () => {
-      return getList(query() || "");
+    async ({ pageParam = 1 }) => {
+      const start = (pageParam - 1) * pageSize;
+      const limit = pageSize;
+      const query = () => {
+        switch (type) {
+          case "recent":
+            return qs.stringify({
+              release: true,
+              _sort: "release_date:DESC,createdAt:DESC",
+              name_ncontains: "playtest",
+              _where: [
+                {
+                  release_date_lte: format(new Date(), "yyyy-MM-dd"),
+                },
+              ],
+              _start: start,
+              _limit: limit,
+            });
+        }
+      };
+      return {
+        result: await getList(query() || ""),
+        next: pageParam + 1,
+      };
     },
     {
+      getNextPageParam: (lastPage) => {
+        if (lastPage.result.totalPages < lastPage.next) {
+          return undefined;
+        }
+        return lastPage.next;
+      },
+      keepPreviousData: true,
       cacheTime: 1000 * 60 * 60 * 24,
       staleTime: 1000 * 60 * 60 * 24,
     }

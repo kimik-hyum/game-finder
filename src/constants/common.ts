@@ -1,5 +1,6 @@
 const api = process.env.API;
 const isClient = typeof window !== "undefined";
+const pageSize = 30;
 const gameReviewScoreData = [
   {
     label: "압도적으로 부정적",
@@ -32,4 +33,4 @@ const gameReviewScoreData = [
   },
 ];
 
-export { api, isClient, gameReviewScoreData };
+export { api, isClient, gameReviewScoreData, pageSize };

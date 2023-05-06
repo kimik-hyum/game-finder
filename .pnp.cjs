@@ -57,6 +57,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:18.2.0"],\
             ["react-hook-form", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:7.43.9"],\
+            ["react-infinite-scroll-component", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:6.1.0"],\
             ["recoil", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:0.7.7"],\
             ["sass", "npm:1.60.0"],\
             ["tailwindcss", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:3.3.1"],\
@@ -3126,6 +3127,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:18.2.0"],\
             ["react-hook-form", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:7.43.9"],\
+            ["react-infinite-scroll-component", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:6.1.0"],\
             ["recoil", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:0.7.7"],\
             ["sass", "npm:1.60.0"],\
             ["tailwindcss", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:3.3.1"],\
@@ -5162,6 +5164,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-infinite-scroll-component", [\
+        ["npm:6.1.0", {\
+          "packageLocation": "./.yarn/cache/react-infinite-scroll-component-npm-6.1.0-fc628f1f18-3708398934.zip/node_modules/react-infinite-scroll-component/",\
+          "packageDependencies": [\
+            ["react-infinite-scroll-component", "npm:6.1.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:6.1.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-infinite-scroll-component-virtual-ac8c1ad106/0/cache/react-infinite-scroll-component-npm-6.1.0-fc628f1f18-3708398934.zip/node_modules/react-infinite-scroll-component/",\
+          "packageDependencies": [\
+            ["react-infinite-scroll-component", "virtual:cec50ac129f3d8a77f37205cec32867b141eea60994488040b487deb7bc05adf13dda41917d022f0094de07b887b3fec6d3f12296e55046c9f5240501a3efb91#npm:6.1.0"],\
+            ["@types/react", "npm:18.0.31"],\
+            ["react", "npm:18.2.0"],\
+            ["throttle-debounce", "npm:2.3.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-is", [\
         ["npm:16.13.1", {\
           "packageLocation": "./.yarn/cache/react-is-npm-16.13.1-a9b9382b4f-f7a19ac349.zip/node_modules/react-is/",\
@@ -5895,6 +5920,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["thenify-all", "npm:1.6.0"],\
             ["thenify", "npm:3.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["throttle-debounce", [\
+        ["npm:2.3.0", {\
+          "packageLocation": "./.yarn/cache/throttle-debounce-npm-2.3.0-0e354dff02-6d90aa2ddb.zip/node_modules/throttle-debounce/",\
+          "packageDependencies": [\
+            ["throttle-debounce", "npm:2.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\

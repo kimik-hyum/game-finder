@@ -6,9 +6,12 @@ import style from "@/styles/list.module.scss";
 import { css } from "@emotion/react";
 import { ReactElement, useRef, useState } from "react";
 import Wrap from "@/layout/Wrap";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { pageSize } from "@/constants/common";
 
 export default function Recent() {
-  const { data, isLoading } = useGetGameList("recent");
+  const { data, isLoading, hasNextPage, fetchNextPage } =
+    useGetGameList("recent");
   const [visibleCards, setVisibleCards] = useState<Set<string>>(new Set());
 
   const observer = useRef<IntersectionObserver | null>(
@@ -27,7 +30,7 @@ export default function Recent() {
               }
             });
           },
-          { threshold: 0.1 }
+          { threshold: 0.3 }
         )
       : null
   );
@@ -38,23 +41,33 @@ export default function Recent() {
       node.id = id;
     }
   };
-  console.log(data);
+  console.log(data?.pages);
+
   return (
     <div>
-      <div css={S}>
-        {data?.list?.map((item: any, i: number) => {
-          const { app_id, name, release_date, tag, supported_languages } = item;
-          return (
-            <AppCard
-              key={app_id}
-              index={i}
-              {...{ app_id, name, release_date, tag, supported_languages }}
-              isVisible={visibleCards.has(app_id.toString())}
-              onVisible={onVisible}
-            />
-          );
+      <InfiniteScroll
+        dataLength={data?.pages.length || 0 * pageSize}
+        next={fetchNextPage}
+        css={S}
+        hasMore={!!hasNextPage}
+        loader={<h4>Loading...</h4>}
+      >
+        {data?.pages?.map((page) => {
+          return page.result.list.map((item: any, i: number) => {
+            const { app_id, name, release_date, tag, supported_languages } =
+              item;
+            return (
+              <AppCard
+                key={app_id}
+                index={i}
+                {...{ app_id, name, release_date, tag, supported_languages }}
+                isVisible={visibleCards.has(app_id.toString())}
+                onVisible={onVisible}
+              />
+            );
+          });
         })}
-      </div>
+      </InfiniteScroll>
     </div>
   );
 }
