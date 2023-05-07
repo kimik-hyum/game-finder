@@ -28,8 +28,8 @@ type AppPropsWithLayout = AppProps & {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 0,
-      staleTime: 0,
+      cacheTime: 1000 * 60 * 60 * 24,
+      staleTime: 1000 * 60 * 60 * 24,
     },
   },
 });

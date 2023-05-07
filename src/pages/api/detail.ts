@@ -7,9 +7,10 @@ export default async function handler(
 ) {
   try {
     const result = await fetch(
-      `http://store.steampowered.com/api/appdetails?appids=${req.query.appids}`
+      `https://store.steampowered.com/api/appdetails?appids=${req.query.appids}&l=korean&cc=kr`
     );
     const data = await result.json();
+    console.log("detail server", data);
     res.status(200).json({ data });
   } catch (err) {
     console.log(err);

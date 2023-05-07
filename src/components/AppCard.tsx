@@ -178,7 +178,7 @@ export default function AppCard({
               : "로딩"}
           </Typography>
           <Typography variant="body1" component={"span"} className="ml-auto">
-            {formatReviewIcon(appReview?.query_summary.review_score)}
+            {formatReviewIcon(appReview?.query_summary.review_score || 0)}
           </Typography>
         </div>
         {(!!supported_languages || !!tag) && (
