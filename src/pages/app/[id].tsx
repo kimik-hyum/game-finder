@@ -6,24 +6,28 @@ import { getDetail, getReview, useAppDetail, useAppReview } from "@/query/app";
 import { css } from "@emotion/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import React from "react";
 import { ReactElement } from "react";
 
 export default function Detail() {
   const router = useRouter();
+  const [activeSection, setActiveSection] = React.useState("content");
   const { id } = router.query;
   const { data: detail } = useAppDetail({ id: id as string, enable: !!id });
   const { data: review } = useAppReview({ id: id as string, enable: !!id });
 
   const handleHover = () => {
     isClient && document.body.classList.add("no-scroll");
+    setActiveSection("review");
   };
   const handleLeave = () => {
     isClient && document.body.classList.remove("no-scroll");
+    setActiveSection("content");
   };
-
+  console.log(activeSection);
   return (
     <Wrap pageName={detail && detail.data[id as string]?.data.name}>
-      <div css={S}>
+      <div css={S} className={`active-${activeSection}`}>
         <div className="content">
           <AppDetail detail={detail?.data[id as string].data} />
         </div>
@@ -32,7 +36,7 @@ export default function Detail() {
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}
         >
-          <Review {...review} />
+          <Review {...review} {...{ setActiveSection, activeSection }} />
         </div>
       </div>
     </Wrap>
@@ -41,9 +45,25 @@ export default function Detail() {
 
 const S = css`
   position: relative;
-  &:has(.review:hover) > .content {
-    filter: blur(10px);
-    opacity: 0.5;
+  &.active-content {
+    .review {
+      z-index: 1;
+      filter: blur(10px);
+      opacity: 0.5;
+    }
+    .content {
+      z-index: 100;
+    }
+  }
+  &.active-review {
+    .review {
+      z-index: 100;
+    }
+    .content {
+      z-index: 1;
+      filter: blur(10px);
+      opacity: 0.5;
+    }
   }
   .content,
   .review {
@@ -51,8 +71,9 @@ const S = css`
   }
   .content {
     position: relative;
-    max-width: 1024px;
+    max-width: 1224px;
     margin: 0 auto;
+    padding: 0 100px;
     z-index: 100;
     background: linear-gradient(
       to right,
@@ -63,12 +84,6 @@ const S = css`
       rgba(255, 255, 255, 0) 99%,
       rgba(255, 255, 255, 0) 100%
     );
-    &:hover {
-      & + .review {
-        filter: blur(10px);
-        opacity: 0.5;
-      }
-    }
   }
   .review {
     position: fixed;

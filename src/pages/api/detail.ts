@@ -10,7 +10,6 @@ export default async function handler(
       `https://store.steampowered.com/api/appdetails?appids=${req.query.appids}&l=korean&cc=kr`
     );
     const data = await result.json();
-    console.log("detail server", data);
     res.status(200).json({ data });
   } catch (err) {
     console.log(err);

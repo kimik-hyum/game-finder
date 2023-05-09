@@ -41,7 +41,6 @@ export default function Recent() {
       node.id = id;
     }
   };
-  console.log(data?.pages);
 
   return (
     <div>

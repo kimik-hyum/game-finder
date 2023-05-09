@@ -1,9 +1,29 @@
-import { FCT } from "@/type/common";
+import { ForwardRefRenderFunction, forwardRef, HTMLAttributes } from "react";
 import { css } from "@emotion/react";
+import clsx from "clsx";
+import React from "react";
 
-const ReviewCard: FCT = ({ children }) => {
-  return <div css={S}>{children}</div>;
-};
+type DivProps = React.HTMLProps<HTMLDivElement>;
+
+interface Props extends DivProps {}
+
+const ReviewCard = React.forwardRef<
+  HTMLDivElement,
+  React.PropsWithChildren<DivProps>
+>(({ className, children, ...props }, ref) => {
+  return (
+    <div
+      css={S}
+      className={`review-card ${clsx(className)}`}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+});
+
+ReviewCard.displayName = "ReviewCard";
 
 const S = css`
   position: relative;

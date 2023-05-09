@@ -173,8 +173,10 @@ export default function AppCard({
           <Typography variant="body1" component={"span"}>
             {isFree
               ? "무료"
-              : appData?.price_overview?.final > 0
-              ? `${numberWithCommas(appData?.price_overview?.final / 100)}원`
+              : appData?.price_overview?.final || 0 > 0
+              ? `${numberWithCommas(
+                  appData?.price_overview?.final || 0 / 100
+                )}원`
               : "로딩"}
           </Typography>
           <Typography variant="body1" component={"span"} className="ml-auto">
