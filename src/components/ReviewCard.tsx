@@ -33,6 +33,7 @@ const S = css`
   min-height: 120px;
   background: #307252;
   max-width: calc((100vw - 1024px) / 2);
+  color: #fff;
 `;
 
 export default ReviewCard;

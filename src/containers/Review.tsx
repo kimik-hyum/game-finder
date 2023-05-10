@@ -55,7 +55,7 @@ const S = css`
     max-width: 600px;
 
     &.negative {
-      background: #307252;
+      background: rgb(148, 78, 73);
       margin-left: auto;
     }
     &.postive {
