@@ -11,7 +11,7 @@ export default function Header({ pageName }: Props) {
   const router = useRouter();
   return (
     <header
-      className={`sticky z-10 flex -top-16  md:flex-row  w-full md:h-20 left-0 md:top-0 md:px-10 shadow-md bg-white flex-col`}
+      className={`sticky z-50 flex -top-16  md:flex-row  w-full md:h-20 left-0 md:top-0 md:px-10 shadow-md bg-white flex-col`}
     >
       <div className="title-bar flex justify-center items-center py-4 h-18">
         {!!pageName && (

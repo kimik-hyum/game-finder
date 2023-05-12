@@ -52,12 +52,12 @@ const S = css`
       opacity: 0.5;
     }
     .content {
-      z-index: 100;
+      z-index: 10;
     }
   }
   &.active-review {
     .review {
-      z-index: 100;
+      z-index: 10;
     }
     .content {
       z-index: 1;
