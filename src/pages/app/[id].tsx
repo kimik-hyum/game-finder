@@ -1,8 +1,16 @@
+import AppSummary from "@/components/detail/AppSummary";
 import { isClient } from "@/constants/common";
 import AppDetail from "@/containers/AppDetail";
 import Review from "@/containers/Review";
 import Wrap from "@/layout/Wrap";
-import { getDetail, getReview, useAppDetail, useAppReview } from "@/query/app";
+import {
+  getDetail,
+  getKoReview,
+  getReview,
+  useAppDetail,
+  useAppKoReview,
+  useAppReview,
+} from "@/query/app";
 import { css } from "@emotion/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -11,10 +19,15 @@ import { ReactElement } from "react";
 
 export default function Detail() {
   const router = useRouter();
-  const [activeSection, setActiveSection] = React.useState("content");
+  const [activeSection, setActiveSection] = React.useState("review");
   const { id } = router.query;
   const { data: detail } = useAppDetail({ id: id as string, enable: !!id });
-  const { data: review } = useAppReview({ id: id as string, enable: !!id });
+  //const { data: review } = useAppReview({ id: id as string, enable: !!id });
+  const { data: koReview } = useAppKoReview({
+    id: id as string,
+    enable: !!id,
+  });
+  console.log(koReview);
 
   const handleHover = () => {
     isClient && document.body.classList.add("no-scroll");
@@ -24,11 +37,12 @@ export default function Detail() {
     isClient && document.body.classList.remove("no-scroll");
     setActiveSection("content");
   };
-  console.log(activeSection);
+  const appData = detail?.data[id as string].data;
   return (
     <Wrap pageName={detail && detail.data[id as string]?.data.name}>
       <div css={S} className={`active-${activeSection}`}>
         <div className="content">
+          <AppSummary {...{ appData }} />
           <AppDetail detail={detail?.data[id as string].data} />
         </div>
         <div
@@ -36,7 +50,7 @@ export default function Detail() {
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}
         >
-          <Review {...review} {...{ setActiveSection, activeSection }} />
+          <Review {...koReview} {...{ setActiveSection, activeSection }} />
         </div>
       </div>
     </Wrap>
@@ -105,7 +119,8 @@ export async function getServerSideProps(context: any) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(["app/detail", id], () => getDetail(id));
-  await queryClient.prefetchQuery(["app/review", id], () => getReview(id));
+  //await queryClient.prefetchQuery(["app/review", id], () => getReview(id));
+  await queryClient.prefetchQuery(["app/review-ko", id], () => getKoReview(id));
 
   return {
     props: {

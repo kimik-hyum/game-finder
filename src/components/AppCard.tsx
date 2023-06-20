@@ -63,42 +63,16 @@ export default function AppCard({
 
   const handleFixedContent = () => {};
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (isDesktop || active) {
-      //router.push(`/app/${app_id}`, undefined, { shallow: true });
-      const videoRect = e.currentTarget?.getBoundingClientRect();
-      // setFixed({
-      //   children:
-      //     active && !!appData?.movies?.length
-      //       ? {
-      //           src: appData.movies[0].webm[480],
-      //           currentTime: 0,
-      //           type: "video",
-      //         }
-      //       : {
-      //           src: `https://cdn.akamai.steamstatic.com/steam/apps/${app_id}/header.jpg`,
-      //           type: "image",
-      //         },
-      //   from: {
-      //     x: videoRect?.left || 0,
-      //     y: videoRect?.top || 0,
-      //     width: videoRef.current?.clientWidth || 0,
-      //     height: videoRef.current?.clientHeight || 0,
-      //   },
-      //   to: {
-      //     x: 0,
-      //     y: 0,
-      //     width: window.innerWidth,
-      //     height: window.innerHeight,
-      //   },
-      // });
-    }
-    if (!isDesktop) {
-      router.push(`/app/${app_id}`);
-      setActive(true);
-    }
-  };
+  // const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  //   e.preventDefault();
+  //   if (isDesktop || active) {
+  //     const videoRect = e.currentTarget?.getBoundingClientRect();
+  //   }
+  //   if (!isDesktop) {
+  //     router.push(`/app/${app_id}`);
+  //     setActive(true);
+  //   }
+  // };
 
   const handleEnter = () => {
     if (!isDesktop) return false;
@@ -111,9 +85,8 @@ export default function AppCard({
   };
 
   return (
-    <a
-      href="#"
-      onClick={handleClick}
+    <Link
+      href={`/app/${app_id}`}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       ref={cardRef}
@@ -197,7 +170,7 @@ export default function AppCard({
           </div>
         )}
       </div>
-    </a>
+    </Link>
   );
 }
 

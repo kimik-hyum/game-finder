@@ -17,13 +17,13 @@ export default function Review({
   return (
     <div css={S}>
       {reviews?.map((item: ReviewContentType, i: number) => {
+        const { review, votes_up, voted_up, votes_funny, create_date } = item;
         return (
           <ReviewCard
             key={i}
             className={item.voted_up ? "postive" : "negative"}
-          >
-            {item.review}
-          </ReviewCard>
+            {...{ review, votes_up, voted_up, votes_funny, create_date }}
+          />
         );
       })}
       <div
@@ -48,18 +48,5 @@ const S = css`
     width: calc(100vw - 60vw);
     left: 50%;
     transform: translateX(-50%);
-  }
-  .review-card {
-    width: 30vw;
-    min-width: 150px;
-    max-width: 600px;
-
-    &.negative {
-      background: rgb(148, 78, 73);
-      margin-left: auto;
-    }
-    &.postive {
-      background: #307252;
-    }
   }
 `;

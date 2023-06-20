@@ -231,6 +231,14 @@ export const getReview = async (id: string) => {
   const { data } = await axios.get(
     `http://localhost:3000/api/review?appids=${id}`
   );
+  console.log("getReview", data);
+  return data;
+};
+
+export const getKoReview = async (id: string) => {
+  const { data } = await axios.get(
+    `http://localhost:3000/api/review-ko?appids=${id}`
+  );
   return data;
 };
 
@@ -271,6 +279,7 @@ export interface ReviewContentType {
   written_during_early_access: boolean;
   hidden_in_steam_china: boolean;
   steam_china_location: string;
+  create_date: string;
 }
 
 export interface Author {
@@ -294,6 +303,24 @@ export const useAppReview = ({
     ["app/review", id],
     async () => {
       return getReview(id);
+    },
+    {
+      enabled: enable,
+    }
+  );
+};
+
+export const useAppKoReview = ({
+  id,
+  enable,
+}: {
+  id: string;
+  enable: boolean;
+}) => {
+  return useQuery<ReviewType, AxiosError>(
+    ["app/review-ko", id],
+    async () => {
+      return getKoReview(id);
     },
     {
       enabled: enable,

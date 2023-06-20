@@ -22,7 +22,7 @@ export default function Header({ pageName }: Props) {
             <ArrowBackIosIcon className="text-3xl" />
           </button>
         )}
-        <div className="logo md:mb-20">
+        <div className="logo">
           <Link href="/">
             <Typography
               variant={!pageName ? "h4" : "h5"}
