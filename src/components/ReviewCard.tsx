@@ -61,6 +61,7 @@ const basicReview = css`
   width: 30vw;
   min-width: 150px;
   max-width: 600px;
+  color: #fff;
   &.negative {
     background: rgb(148, 78, 73);
     margin-left: auto;
@@ -74,6 +75,7 @@ const basicReview = css`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: #fff;
     &.hover {
       cursor: pointer;
     }
@@ -107,6 +109,9 @@ const basicReview = css`
     top: 24px;
     font-size: 48px;
     opacity: 0.3;
+  }
+  .MuiChip-label {
+    color: #fff;
   }
 `;
 

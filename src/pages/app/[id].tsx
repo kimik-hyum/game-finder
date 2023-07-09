@@ -20,7 +20,7 @@ import { ReactElement } from "react";
 export default function Detail() {
   const router = useRouter();
   const [activeSection, setActiveSection] = React.useState("review");
-  const { id } = router.query;
+  const { id } = router.query as { id: string };
   const { data: detail } = useAppDetail({ id: id as string, enable: !!id });
   //const { data: review } = useAppReview({ id: id as string, enable: !!id });
   const { data: koReview } = useAppKoReview({
@@ -47,10 +47,11 @@ export default function Detail() {
         </div>
         <div
           className="review"
+          id="review-scroll"
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}
         >
-          <Review {...koReview} {...{ setActiveSection, activeSection }} />
+          <Review {...{ setActiveSection, activeSection, id }} />
         </div>
       </div>
     </Wrap>

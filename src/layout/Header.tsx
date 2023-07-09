@@ -38,7 +38,7 @@ export default function Header({ pageName }: Props) {
         <nav className="flex justify-center items-center max-md:border-t max-md:py-2 md:ml-auto md:-mr-4 ">
           <ul className="flex">
             {NAV.map((nav) => (
-              <li key={nav.title} className="md:mb-8">
+              <li key={nav.title}>
                 <Link href={nav.path} className="px-4 block">
                   <Typography variant="h6">{nav.title}</Typography>
                 </Link>

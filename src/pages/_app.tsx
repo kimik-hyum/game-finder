@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     },
   });
 
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? ((page: any) => page);
 
   return (
     <RecoilRoot>

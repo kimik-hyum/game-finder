@@ -231,7 +231,6 @@ export const getReview = async (id: string) => {
   const { data } = await axios.get(
     `http://localhost:3000/api/review?appids=${id}`
   );
-  console.log("getReview", data);
   return data;
 };
 
@@ -324,6 +323,30 @@ export const useAppKoReview = ({
     },
     {
       enabled: enable,
+    }
+  );
+};
+
+export const useInfiniteReviewQuery = ({ id }: { id?: string }) => {
+  return useInfiniteQuery(
+    ["landing/problem", id],
+    async ({ pageParam }) => {
+      const res = await axios.request<any>({
+        url: "/api/reviews",
+        params: {
+          cursor: pageParam,
+          id,
+          filter: "recent",
+        },
+      });
+      return res.data;
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        return !!lastPage.review.reviews.length
+          ? lastPage.review.cursor
+          : false;
+      },
     }
   );
 };
