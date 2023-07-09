@@ -6,9 +6,9 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { Hydrate, QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { NextPage } from "next";
-import type { AppProps } from "next/app";
+import { AppProps } from "next/dist/shared/lib/router/router";
 import { Roboto } from "next/font/google";
+import { NextPage } from "next/types";
 import { ReactElement, ReactNode } from "react";
 import { RecoilRoot } from "recoil";
 
